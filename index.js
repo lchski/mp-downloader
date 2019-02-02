@@ -28,7 +28,7 @@ exports.getPlaqueDataFromOhtPage = async (req, res) => {
     res.json(resJson);
 };
 
-const extractPlaqueSlug = (plaquePageUrl) => plaquePageUrl.replace('https://www.heritagetrust.on.ca/en/index.php/plaques/', '');
+const extractPlaqueSlug = (plaquePageUrl) => plaquePageUrl.replace('https://www.heritagetrust.on.ca/en/index.php/plaques/', '').replace('https://www.heritagetrust.on.ca/en/plaques/', '');
 
 const extractPlaqueData = (plaquePageHtml) => {
     const $ = cheerio.load(plaquePageHtml);
