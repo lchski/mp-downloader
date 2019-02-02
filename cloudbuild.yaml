@@ -1,4 +1,3 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['functions', 'deploy', 'getPlaqueDataFromOhtPage', '--trigger-topic', 'plaquePagesToScrape', '--runtime', 'nodejs8']
-    dir: 'src'
