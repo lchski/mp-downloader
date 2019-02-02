@@ -6,6 +6,12 @@ Hereâ€™s a set of functions that scrape and extract [the Ontario Heritage Trustâ
 
 (Work in progress, not a professional coder, all the usual disclaimers. Apologies in advance for my love of plaques.)
 
+## Process sketch
+
+1. `Indexer` spiders through the database (page by page), assembling the list of plaque page URLs. It sends each URL to Pub/Sub.
+2. Pub/Sub triggers a background function, `Extractor`.
+3. `Extractor` loads the plaque page URL and extracts the plaque details, storing them in Firestore.
+
 ## Prior art
 
 This database already _exists_, in a few places and forms:
