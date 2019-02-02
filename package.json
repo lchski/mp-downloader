@@ -1,0 +1,12 @@
+{
+  "name": "oht-plaques",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "node-fetch": "^2.3.0"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "MIT"
+}
