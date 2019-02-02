@@ -1,4 +1,4 @@
-const { getPlaqueDataFromOhtPage } = require('./index.js');
+const { getPlaqueDataFromOhtPage } = require('../index.js');
 
 req = {
     body: {
