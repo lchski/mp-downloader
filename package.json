@@ -11,5 +11,8 @@
   },
   "devDependencies": {},
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "NODE_ENV=dev node test.js"
+  }
 }
