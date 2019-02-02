@@ -16,7 +16,6 @@ exports.getPlaqueDataFromOhtPage = async (req, res) => {
     res.json(resJson);
 };
 
-
 const extractPlaqueData = (plaquePageHtml) => {
     const $ = cheerio.load(plaquePageHtml);
 
