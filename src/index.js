@@ -29,8 +29,8 @@ exports.getPlaqueDataFromOhtPage = async (data, context) => {
     return resJson;
 };
 
-exports.getPlaquePageUrlsFromOhtIndexPage = async (req, res) => {
-    const ohtResult = await fetch(req.body.url);
+exports.getPlaquePageUrlsFromOhtIndexPage = async (data, context) => {
+    const ohtResult = await fetch(Buffer.from(data.data, 'base64').toString());
 
     const responseBody = await ohtResult.text();
 
@@ -41,5 +41,7 @@ exports.getPlaquePageUrlsFromOhtIndexPage = async (req, res) => {
         plaquePageUrls: extractPlaquePageUrls(responseBody),
     };
 
-    res.json(resJson);
+    // publish a message to topic `plaquePagesToScrape` for each URL, with URL as message body
+
+    return resJson;
 };
