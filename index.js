@@ -1,3 +1,5 @@
+require('dotenv-safe').config({ allowEmptyValues: true });
+
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 
