@@ -6,40 +6,50 @@ exports.getPlaqueDataFromOhtPage = async (req, res) => {
 
     const responseBody = await ohtResult.text();
 
-    const $ = cheerio.load(responseBody);
-
-    let plaqueDetails = {};
-
-    const plaqueSection = $('#content');
-
-    plaqueDetails.title = plaqueSection.find('h1').text();
-    plaqueDetails.text = plaqueSection.find('section p').first().text();
-
-    const locationSection = plaqueSection.find('h3:contains("Location")').parent();
-
-    plaqueDetails.location = {};
-    plaqueDetails.location.address = locationSection.find('p').first().text();
-    plaqueDetails.location.region = locationSection.find('div p:nth-child(1) a').text();
-    plaqueDetails.location.county = locationSection.find('div p:nth-child(2) a').text();
-    plaqueDetails.location.municipality = locationSection.find('div p:nth-child(3) a').text();
-
-    const themesSection = plaqueSection.find('h3:contains("Themes")').parent();
-
-    plaqueDetails.themes = [];
-
-    themesSection.find("ul li a").each((i, elem) => {
-        plaqueDetails.themes.push({
-            title: $(elem).text(),
-            url: $(elem).attr('href')
-        });
-    });
-
     const resJson = {
         status: ohtResult.status,
         statusText: ohtResult.statusText,
         url: ohtResult.url,
-        plaqueDetails: plaqueDetails
+        plaqueDetails: extractPlaqueData(responseBody),
     };
 
     res.json(resJson);
+};
+
+
+const extractPlaqueData = (plaquePageHtml) => {
+    const $ = cheerio.load(plaquePageHtml);
+
+    const plaqueSection = $('#content');
+
+    return {
+        ...extractPlaqueSummary(plaqueSection),
+        location: extractPlaqueLocation(plaqueSection.find('h3:contains("Location")').parent()),
+        themes: extractPlaqueThemes(plaqueSection.find('h3:contains("Themes")').parent(), $),
+    };
+};
+
+const extractPlaqueSummary = (plaqueSection) => ({
+    title: plaqueSection.find('h1').text(),
+    text: plaqueSection.find('section p').first().text(),
+});
+
+const extractPlaqueLocation = (locationSection) => ({
+    address: locationSection.find('p').first().text(),
+    region: locationSection.find('div p:nth-child(1) a').text(),
+    county: locationSection.find('div p:nth-child(2) a').text(),
+    municipality: locationSection.find('div p:nth-child(3) a').text(),
+});
+
+const extractPlaqueThemes = (themesSection, $) => {
+    themes = [];
+
+    themesSection.find("ul li a").each((i, elem) => {
+        themes.push({
+            title: $(elem).text(),
+            url: $(elem).attr('href'),
+        });
+    });
+
+    return themes;
 };
