@@ -1,4 +1,4 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['functions', 'deploy', 'getPlaqueDataFromOhtPage', '--trigger-http', '--runtime', 'nodejs8', '--entry-point', '[YOUR_FUNCTION_NAME_IN_CODE]']
+    args: ['functions', 'deploy', 'getPlaqueDataFromOhtPage', '--trigger-http', '--runtime', 'nodejs8']
     dir: 'functions/autodeploy'
