@@ -35,20 +35,22 @@ const extractPlaqueSummary = (plaqueSection) => ({
 
 const extractPlaqueLocation = (locationSection) => ({
     address: locationSection.find('p').first().text(),
-    region: locationSection.find('div p:nth-child(1) a').text(),
-    county: locationSection.find('div p:nth-child(2) a').text(),
-    municipality: locationSection.find('div p:nth-child(3) a').text(),
+    region: extractLink(locationSection.find('div p:nth-child(1) a')),
+    county: extractLink(locationSection.find('div p:nth-child(2) a')),
+    municipality: extractLink(locationSection.find('div p:nth-child(3) a')),
 });
 
 const extractPlaqueThemes = (themesSection, $) => {
     themes = [];
 
     themesSection.find("ul li a").each((i, elem) => {
-        themes.push({
-            title: $(elem).text(),
-            url: $(elem).attr('href'),
-        });
+        themes.push(extractLink($(elem)));
     });
 
     return themes;
 };
+
+const extractLink = (linkElement) => ({
+    title: linkElement.text(),
+    url: linkElement.attr('href'),
+});
