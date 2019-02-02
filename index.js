@@ -3,6 +3,8 @@ require('dotenv-safe').config({ allowEmptyValues: true });
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 
+const { saveToFirestore } = require('./lib/firestore');
+
 exports.getPlaqueDataFromOhtPage = async (req, res) => {
     const ohtResult = await fetch(req.body.url);
 
@@ -15,8 +17,20 @@ exports.getPlaqueDataFromOhtPage = async (req, res) => {
         plaqueDetails: extractPlaqueData(responseBody),
     };
 
+    await saveToFirestore(
+        extractPlaqueSlug(ohtResult.url),
+        {
+            id: extractPlaqueSlug(ohtResult.url),
+            url: ohtResult.url,
+            ...resJson.plaqueDetails,
+        },
+        'plaques'
+    );
+
     res.json(resJson);
 };
+
+const extractPlaqueSlug = (plaquePageUrl) => plaquePageUrl.replace('https://www.heritagetrust.on.ca/en/index.php/plaques/', '');
 
 const extractPlaqueData = (plaquePageHtml) => {
     const $ = cheerio.load(plaquePageHtml);
