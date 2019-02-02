@@ -35,9 +35,9 @@ const extractPlaqueSummary = (plaqueSection) => ({
 
 const extractPlaqueLocation = (locationSection) => ({
     address: locationSection.find('p').first().text(),
-    region: extractLink(locationSection.find('div p:nth-child(1) a')),
-    county: extractLink(locationSection.find('div p:nth-child(2) a')),
     municipality: extractLink(locationSection.find('div p:nth-child(3) a')),
+    county: extractLink(locationSection.find('div p:nth-child(2) a')),
+    region: extractLink(locationSection.find('div p:nth-child(1) a')),
 });
 
 const extractPlaqueThemes = (themesSection, $) => {
