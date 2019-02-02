@@ -4,8 +4,8 @@ const { saveToFirestore } = require('./lib/firestore');
 const { extractPlaqueSlug, extractPlaqueData } = require('./lib/extractors/plaqueDetails');
 const { extractPlaquePageUrls } = require('./lib/extractors/indexPageUrls');
 
-exports.getPlaqueDataFromOhtPage = async (req, res) => {
-    const ohtResult = await fetch(req.body.url);
+exports.getPlaqueDataFromOhtPage = async (url, context) => {
+    const ohtResult = await fetch(Buffer.from(url, 'base64').toString());
 
     const responseBody = await ohtResult.text();
 
@@ -26,7 +26,7 @@ exports.getPlaqueDataFromOhtPage = async (req, res) => {
         'plaques'
     );
 
-    res.json(resJson);
+    return resJson;
 };
 
 exports.getPlaquePageUrlsFromOhtIndexPage = async (req, res) => {

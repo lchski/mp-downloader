@@ -1,13 +1,7 @@
 const { getPlaqueDataFromOhtPage } = require('../index.js');
 
-req = {
-    body: {
-        url: "https://www.heritagetrust.on.ca/en/index.php/plaques/district-court-house-and-gaol"
-    }
-};
+const url = Buffer.from('https://www.heritagetrust.on.ca/en/index.php/plaques/district-court-house-and-gaol').toString('base64');
 
-res = {
-    json: (text) => console.log(text)
-};
+const context = {};
 
-getPlaqueDataFromOhtPage(req, res);
+(async () => console.log(await getPlaqueDataFromOhtPage(url, context)))();
