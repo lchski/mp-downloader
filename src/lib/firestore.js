@@ -5,7 +5,7 @@ let db;
 // Initialize Firestore, depending on the environment.
 switch (process.env.NODE_ENV) {
   case 'dev':
-    const serviceAccount = require('../env/oht-plaques-firebase-developer-admin.json');
+    const serviceAccount = require('../../env/oht-plaques-firebase-developer-admin.json');
 
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount)
