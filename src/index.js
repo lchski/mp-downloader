@@ -5,9 +5,6 @@ const { extractPlaqueSlug, extractPlaqueData } = require('./lib/extractors/plaqu
 const { extractPlaquePageUrls } = require('./lib/extractors/indexPageUrls');
 
 exports.getPlaqueDataFromOhtPage = async (data, context) => {
-    console.log(data);
-    console.log(context);
-
     const ohtResult = await fetch(Buffer.from(data.data, 'base64').toString());
 
     const responseBody = await ohtResult.text();
