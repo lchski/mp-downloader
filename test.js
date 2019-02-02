@@ -1,3 +1,5 @@
+require('dotenv-safe').config({ allowEmptyValues: true });
+
 const { getPlaqueDataFromOhtPage } = require('./index.js');
 
 req = {
