@@ -43,7 +43,7 @@ exports.getPlaquePageUrlsFromOhtIndexPage = async (data, context) => {
     };
 
     // publish a message to topic `plaquePagesToScrape` for each URL, with URL as message body
-    resJson.plaquePageUrls.forEach((url) => await publishMessageToPubSub('plaquePagesToScrape', url));
+    resJson.plaquePageUrls.forEach(async (url) => await publishMessageToPubSub('plaquePagesToScrape', url));
 
     return resJson;
 };
