@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 
 const { saveToFirestore } = require('./lib/firestore');
+const { publishMessageToPubSub } = require('./lib/pubsub');
 const { extractPlaqueSlug, extractPlaqueData } = require('./lib/extractors/plaqueDetails');
 const { extractPlaquePageUrls } = require('./lib/extractors/indexPageUrls');
 
@@ -42,6 +43,7 @@ exports.getPlaquePageUrlsFromOhtIndexPage = async (data, context) => {
     };
 
     // publish a message to topic `plaquePagesToScrape` for each URL, with URL as message body
+    resJson.plaquePageUrls.forEach((url) => await publishMessageToPubSub('plaquePagesToScrape', url));
 
     return resJson;
 };
