@@ -23,6 +23,17 @@ exports.getPlaqueDataFromOhtPage = async (req, res) => {
     plaqueDetails.location.county = locationSection.find('div p:nth-child(2) a').text();
     plaqueDetails.location.municipality = locationSection.find('div p:nth-child(3) a').text();
 
+    const themesSection = plaqueSection.find('h3:contains("Themes")').parent();
+
+    plaqueDetails.themes = [];
+
+    themesSection.find("ul li a").each((i, elem) => {
+        plaqueDetails.themes.push({
+            title: $(elem).text(),
+            url: $(elem).attr('href')
+        });
+    });
+
     const resJson = {
         status: ohtResult.status,
         statusText: ohtResult.statusText,
