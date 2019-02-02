@@ -2,7 +2,7 @@
   "name": "oht-plaques",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "firebase-admin": "^7.0.0",
