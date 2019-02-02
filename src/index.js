@@ -1,8 +1,8 @@
 const fetch = require('node-fetch');
 
 const { saveToFirestore } = require('./lib/firestore');
-const { extractPlaqueSlug, extractPlaqueData } = require('./lib/plaqueExtractors');
-const { extractPlaquePageUrls } = require('./lib/indexPageUrlExtractors');
+const { extractPlaqueSlug, extractPlaqueData } = require('./lib/extractors/plaqueDetails');
+const { extractPlaquePageUrls } = require('./lib/extractors/indexPageUrls');
 
 exports.getPlaqueDataFromOhtPage = async (req, res) => {
     const ohtResult = await fetch(req.body.url);
