@@ -2,13 +2,22 @@ const fetch = require('node-fetch');
 
 const URL = require("url").URL;
 
-const { saveToFirestore } = require('./lib/firestore');
+const { checkIfExistsInFirestore, saveToFirestore } = require('./lib/firestore');
 const { publishMessageToPubSub } = require('./lib/pubsub');
 const { extractPlaqueSlug, extractPlaqueData } = require('./lib/extractors/plaqueDetails');
 const { extractPlaquePageUrls } = require('./lib/extractors/indexPageUrls');
 
 exports.getPlaqueDataFromOhtPage = async (data, context) => {
     const urlToScrape = new URL(JSON.parse(Buffer.from(data.data, 'base64').toString()));
+
+    const plaqueSlug = extractPlaqueSlug(urlToScrape.toString());
+
+    // Bail early if the record already exists in firestore.
+    if (checkIfExistsInFirestore(plaqueSlug, 'plaques')) {
+        console.log('Already exists in Firestore:', plaqueSlug);
+
+        return;
+    }
 
     const ohtResult = await fetch(urlToScrape);
 
@@ -22,9 +31,9 @@ exports.getPlaqueDataFromOhtPage = async (data, context) => {
     };
 
     await saveToFirestore(
-        extractPlaqueSlug(ohtResult.url),
+        plaqueSlug,
         {
-            id: extractPlaqueSlug(ohtResult.url),
+            id: plaqueSlug,
             url: ohtResult.url,
             ...resJson.plaqueDetails,
         },
