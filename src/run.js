@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 
 const { publishMessageToPubSub } = require('./lib/pubsub');
+const { countRecordsInFirestoreCollection } = require('./lib/firestore');
 
 (async () => {
     let urls = [
@@ -14,7 +15,11 @@ const { publishMessageToPubSub } = require('./lib/pubsub');
 
     const $ = cheerio.load(responseBody);
 
-    const numberOfPlaques = $('#content p:contains("plaques found that match your criteria")').first().text().toString().match(/\d/g).join('');
+    const numberOfPlaques = parseInt($('#content p:contains("plaques found that match your criteria")').first().text().toString().match(/\d/g).join(''));
 
-    console.log(numberOfPlaques);
+    if (countRecordsInFirestoreCollection('plaques') == numberOfPlaques) {
+        console.log('Number of plaques is equal to the number of records in the database. Aborting.')
+
+        return;
+    }
 })();
