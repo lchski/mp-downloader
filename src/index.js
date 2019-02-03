@@ -17,7 +17,7 @@ exports.getPlaqueDataFromOhtPage = async (data, context) => {
         plaqueSlug,
         {
             id: plaqueSlug,
-            url: urlToScrape,
+            url: urlToScrape.toString(),
         },
         'plaquePageList'
     );
