@@ -2,13 +2,15 @@ const fetch = require('node-fetch');
 
 const URL = require("url").URL;
 
+const removeAccents = require('remove-accents');
+
 const { checkIfExistsInFirestore, saveToFirestore } = require('./lib/firestore');
 const { publishMessageToPubSub } = require('./lib/pubsub');
 const { extractPlaqueSlug, extractPlaqueData } = require('./lib/extractors/plaqueDetails');
 const { extractPlaquePageUrls } = require('./lib/extractors/indexPageUrls');
 
 exports.getPlaqueDataFromOhtPage = async (data, context) => {
-    const urlToScrape = new URL(JSON.parse(Buffer.from(data.data, 'base64').toString()));
+    const urlToScrape = getUrlFromDataObject(data);
 
     const plaqueSlug = extractPlaqueSlug(urlToScrape.toString());
 
@@ -54,7 +56,7 @@ exports.getPlaqueDataFromOhtPage = async (data, context) => {
 };
 
 exports.getPlaquePageUrlsFromOhtIndexPage = async (data, context) => {
-    const urlToScrape = new URL(JSON.parse(Buffer.from(data.data, 'base64').toString()));
+    const urlToScrape = getUrlFromDataObject(data);
 
     const ohtResult = await fetch(urlToScrape);
 
@@ -72,3 +74,5 @@ exports.getPlaquePageUrlsFromOhtIndexPage = async (data, context) => {
 
     return resJson;
 };
+
+const getUrlFromDataObject = (dataObject) => new URL(removeAccents(JSON.parse(Buffer.from(dataObject.data, 'base64').toString())));

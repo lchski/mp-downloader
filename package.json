@@ -8,6 +8,7 @@
     "cheerio": "^1.0.0-rc.2",
     "firebase-admin": "^7.0.0",
     "node-fetch": "^2.3.0",
+    "remove-accents": "^0.4.2",
     "url": "^0.11.0"
   },
   "devDependencies": {},
