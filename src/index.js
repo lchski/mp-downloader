@@ -44,7 +44,9 @@ exports.getPlaqueDataFromOhtPage = async (data, context) => {
 };
 
 exports.getPlaquePageUrlsFromOhtIndexPage = async (data, context) => {
-    const ohtResult = await fetch(Buffer.from(data.data, 'base64').toString());
+    const urlToScrape = new URL(JSON.parse(Buffer.from(data.data, 'base64').toString()));
+
+    const ohtResult = await fetch(urlToScrape);
 
     const responseBody = await ohtResult.text();
 
