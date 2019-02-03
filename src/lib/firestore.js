@@ -35,3 +35,14 @@ module.exports.saveToFirestore = async (document, payload, collection) => {
       console.log(e.message);
     });
 };
+
+module.exports.checkIfExistsInFirestore = async (document, collection) => {
+  return db
+    .collection(collection)
+    .doc(document)
+    .get()
+    .then(doc => doc.exists)
+    .catch(e => {
+      console.log('Error getting document', e);
+    });
+};
