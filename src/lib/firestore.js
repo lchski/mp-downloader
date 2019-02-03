@@ -46,3 +46,13 @@ module.exports.checkIfExistsInFirestore = async (document, collection) => {
       console.log('Error getting document', e);
     });
 };
+
+module.exports.countRecordsInFirestoreCollection = async (collection) => {
+  return db
+    .collection(collection)
+    .get()
+    .then(records => records.size)
+    .catch(e => {
+      console.log('Error counting number of records', e);
+    });
+};
