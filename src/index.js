@@ -10,10 +10,6 @@ const { extractPlaquePageUrls } = require('./lib/extractors/indexPageUrls');
 exports.getPlaqueDataFromOhtPage = async (data, context) => {
     const urlToScrape = new URL(JSON.parse(Buffer.from(data.data, 'base64').toString()));
 
-    console.log(data);
-    console.log(Buffer.from(data.data, 'base64').toString());
-    console.log(urlToScrape);
-
     const ohtResult = await fetch(urlToScrape);
 
     const responseBody = await ohtResult.text();
