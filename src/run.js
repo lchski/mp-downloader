@@ -35,9 +35,9 @@ const { countRecordsInFirestoreCollection } = require('./lib/firestore');
     // Remove 'p0' and 'p1' values.
     urls.splice(1, 2);
 
-    // publish a message to topic `getPlaquePageUrlsFromOhtIndexPage` for each URL, with URL as message body
+    // publish a message to topic `plaqueIndexPagesToSpider` for each URL, with URL as message body
     urls.forEach(async (url) => {
-        await publishMessageToPubSub('getPlaquePageUrlsFromOhtIndexPage', url);
+        await publishMessageToPubSub('plaqueIndexPagesToSpider', url);
 
         console.log('Published an event for:', url);
     });
