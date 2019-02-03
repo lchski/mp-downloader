@@ -56,3 +56,19 @@ module.exports.countRecordsInFirestoreCollection = async (collection) => {
       console.log('Error counting number of records', e);
     });
 };
+
+module.exports.getAllRecordIdsInFirestoreCollection = async (collection) => {
+  return db
+    .collection(collection)
+    .get()
+    .then(records => {
+      let returnedRecordIds = [];
+
+      records.forEach((record) => returnedRecordIds.push(record.id));
+
+      return returnedRecordIds;
+    })
+    .catch(e => {
+      console.log('Error retrieving records', e);
+    });
+}
