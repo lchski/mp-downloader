@@ -12,6 +12,16 @@ exports.getPlaqueDataFromOhtPage = async (data, context) => {
 
     const plaqueSlug = extractPlaqueSlug(urlToScrape.toString());
 
+    // Add this plaque page to our list of plaque pages.
+    await saveToFirestore(
+        plaqueSlug,
+        {
+            id: plaqueSlug,
+            url: urlToScrape,
+        },
+        'plaquePageList'
+    );
+
     // Bail early if the record already exists in firestore.
     if (await checkIfExistsInFirestore(plaqueSlug, 'plaques')) {
         console.log('Already exists in Firestore:', plaqueSlug);
