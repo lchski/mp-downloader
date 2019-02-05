@@ -72,3 +72,13 @@ module.exports.getAllRecordIdsInFirestoreCollection = async (collection) => {
       console.log('Error retrieving records', e);
     });
 }
+
+module.exports.getAllRecordsInFirestoreCollection = async (collection) => {
+  return db
+    .collection(collection)
+    .get()
+    .then(records => records)
+    .catch(e => {
+      console.log('Error retrieving records', e);
+    });
+}
