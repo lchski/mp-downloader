@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const { getAllRecordsInFirestoreCollection } = require('./lib/firestore');
 
 (async () => {
@@ -7,7 +9,7 @@ const { getAllRecordsInFirestoreCollection } = require('./lib/firestore');
 
     records.forEach((record) => extractedRecords.push(record.data()));
 
-    console.log(extractedRecords.map((record) => {
+    extractedRecords = extractedRecords.map((record) => {
         let reshapedRecord = {
             details: {
                 title: record.title,
@@ -24,5 +26,14 @@ const { getAllRecordsInFirestoreCollection } = require('./lib/firestore');
         delete reshapedRecord.updatedAt;
 
         return reshapedRecord;
-    }));
+    });
+
+    await fs.writeFile(`${__dirname}/../data/plaques.json`, JSON.stringify(extractedRecords), (err) => {
+        if (err) {
+            console.error(err);
+            return;
+        };
+        
+        console.log(`Wrote ${extractedRecords.length} plaques to data/plaques.json.`);
+    })
 })();
