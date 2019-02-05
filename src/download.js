@@ -52,9 +52,7 @@ const { getAllRecordsInFirestoreCollection } = require('./lib/firestore');
 const convertRecordsToTsv = (records) => {
     let rows = addRow([], ['plaqueId', 'category', 'key', 'value']);
 
-    recordsTemp = [records[0], records[1], records[2]];
-
-    recordsTemp.forEach((record) => {
+    records.forEach((record) => {
         let detailRows = extractDetailRows(record.details);
         let locationRows = extractLocationRows(record.location);
         let themeRows = extractThemeRows(record.themes);
