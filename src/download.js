@@ -28,6 +28,7 @@ const { getAllRecordsInFirestoreCollection } = require('./lib/firestore');
         return reshapedRecord;
     });
 
+    // Export JSON file.
     await fs.writeFile(`${__dirname}/../data/plaques.json`, JSON.stringify(extractedRecords), (err) => {
         if (err) {
             console.error(err);
@@ -35,5 +36,19 @@ const { getAllRecordsInFirestoreCollection } = require('./lib/firestore');
         };
         
         console.log(`Wrote ${extractedRecords.length} plaques to data/plaques.json.`);
-    })
+    });
+
+    // Export CSV.
+    await fs.writeFile(`${__dirname}/../data/plaques.csv`, convertRecordsToCsv(extractedRecords), (err) => {
+        if (err) {
+            console.error(err);
+            return;
+        };
+        
+        console.log(`Wrote ${extractedRecords.length} plaques to data/plaques.csv.`);
+    });
 })();
+
+const convertRecordsToCsv = (records) => {
+
+};
