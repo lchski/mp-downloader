@@ -52,12 +52,16 @@ const { getAllRecordsInFirestoreCollection } = require('./lib/firestore');
 const convertRecordsToTsv = (records) => {
     let rows = addRow([], ['plaqueId', 'category', 'key', 'value']);
 
-    records.forEach((record) => {
+    recordsTemp = [records[0], records[1], records[2]];
+
+    recordsTemp.forEach((record) => {
         let detailRows = extractDetailRows(record.details);
-        let locationRows = extractLocationRows(record.locations);
+        let locationRows = extractLocationRows(record.location);
         let themeRows = extractThemeRows(record.themes);
 
-
+        console.log(detailRows);
+        console.log(locationRows);
+        console.log(themeRows);
     })
 
     return rows;
@@ -80,10 +84,10 @@ const extractDetailRows = (detailItems) => {
 
 const extractLocationRows = (locationItems) => {
     let rows = [
-        ['region', detailItems.region],
-        ['county', detailItems.county],
-        ['municipality', detailItems.municipality],
-        ['address', detailItems.address],
+        ['region', locationItems.region.title],
+        ['county', locationItems.county.title],
+        ['municipality', locationItems.municipality.title],
+        ['address', locationItems.address],
     ];
 
     rows = rows.map((row) => pushToBeginningOfArray(row, 'location'));
