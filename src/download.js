@@ -53,7 +53,11 @@ const convertRecordsToTsv = (records) => {
     let rows = addRow([], ['plaqueId', 'category', 'key', 'value']);
 
     records.forEach((record) => {
-        console.log(extractDetailRows(record.details));
+        let detailRows = extractDetailRows(record.details);
+        let locationRows = extractLocationRows(record.locations);
+        let themeRows = extractThemeRows(record.themes);
+
+
     })
 
     return rows;
@@ -75,11 +79,24 @@ const extractDetailRows = (detailItems) => {
 };
 
 const extractLocationRows = (locationItems) => {
+    let rows = [
+        ['region', detailItems.region],
+        ['county', detailItems.county],
+        ['municipality', detailItems.municipality],
+        ['address', detailItems.address],
+    ];
 
+    rows = rows.map((row) => pushToBeginningOfArray(row, 'location'));
+
+    return rows;
 };
 
 const extractThemeRows = (themeItems) => {
+    let rows = themeItems.map((theme) => ['theme', theme.title]);
 
+    rows = rows.map((row) => pushToBeginningOfArray(row, 'themes'));
+
+    return rows;
 };
 
 const pushToBeginningOfArray = (arrayToModify, itemToPush) => {
