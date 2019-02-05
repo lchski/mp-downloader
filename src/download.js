@@ -39,7 +39,7 @@ const { getAllRecordsInFirestoreCollection } = require('./lib/firestore');
     });
 
     // Export TSV.
-    await fs.writeFile(`${__dirname}/../data/plaques.csv`, convertRecordsToTsv(extractedRecords), (err) => {
+    await fs.writeFile(`${__dirname}/../data/plaques.tsv`, convertRecordsToTsv(extractedRecords), (err) => {
         if (err) {
             console.error(err);
             return;
@@ -59,10 +59,10 @@ const convertRecordsToTsv = (records) => {
         let locationRows = extractLocationRows(record.location);
         let themeRows = extractThemeRows(record.themes);
 
-        console.log(detailRows);
-        console.log(locationRows);
-        console.log(themeRows);
-    })
+        detailRows.forEach((row) => rows = addRow(rows, pushToBeginningOfArray(row, record.id)));
+        locationRows.forEach((row) => rows = addRow(rows, pushToBeginningOfArray(row, record.id)));
+        themeRows.forEach((row) => rows = addRow(rows, pushToBeginningOfArray(row, record.id)));
+    });
 
     return rows;
 };
