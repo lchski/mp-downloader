@@ -38,17 +38,23 @@ const { getAllRecordsInFirestoreCollection } = require('./lib/firestore');
         console.log(`Wrote ${extractedRecords.length} plaques to data/plaques.json.`);
     });
 
-    // Export CSV.
-    await fs.writeFile(`${__dirname}/../data/plaques.csv`, convertRecordsToCsv(extractedRecords), (err) => {
+    // Export TSV.
+    await fs.writeFile(`${__dirname}/../data/plaques.csv`, convertRecordsToTsv(extractedRecords), (err) => {
         if (err) {
             console.error(err);
             return;
         };
         
-        console.log(`Wrote ${extractedRecords.length} plaques to data/plaques.csv.`);
+        console.log(`Wrote ${extractedRecords.length} plaques to data/plaques.tsv.`);
     });
 })();
 
-const convertRecordsToCsv = (records) => {
+const convertRecordsToTsv = (records) => {
+    let rows = addRow([], ['plaqueId', 'category', 'key', 'value']);
 
+    return rows;
+};
+
+const addRow = (existingRows, newRowItems) => {
+    return existingRows += newRowItems.join('\t') + '\r\n';
 };
